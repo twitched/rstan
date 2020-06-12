@@ -119,8 +119,8 @@ stanc_beta <- function(model_code, model_name, isystem) {
   ARGS <- paste("-E -nostdinc -x c++ -P -C", 
                 paste("-I", isystem, " ", collapse = ""), 
                 "-o", processed, unprocessed)
-  CXX <- get_CXX()
-  pkgbuild::with_build_tools(system2(CXX, args = ARGS), 
+  CXX <- strsplit(get_CXX())[[1]]
+  pkgbuild::with_build_tools(system2(CXX[1], args = paste(CXX[-1], ARGS), 
                              required = rstan_options("required") && 
                                identical(Sys.getenv("WINDOWS"), "TRUE") &&
                               !identical(Sys.getenv("R_PACKAGE_SOURCE"), "") )
